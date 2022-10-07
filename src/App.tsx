@@ -6,6 +6,8 @@ function App() {
   const inputRef = useRef<any>();
 
   const onAdd = () => {
+    if (!inputRef.current.value) return;
+
     const added: string[] = [...data, inputRef.current.value ?? "emty"];
     setData(added);
     localStorage.setItem("list", JSON.stringify(added));
@@ -23,6 +25,14 @@ function App() {
       </Link>
       <input ref={inputRef}></input>
       <button onClick={() => onAdd()}>add</button>
+      <button
+        onClick={() => {
+          setData([]);
+          localStorage.removeItem("list");
+        }}
+      >
+        clear
+      </button>
       <div>
         {data.map((e, i) => (
           <p key={i}>{e}</p>

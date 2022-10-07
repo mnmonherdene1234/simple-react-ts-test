@@ -24,7 +24,7 @@ const Fetch: FC = () => {
         data.map((e, i) => (
           <div key={e.id}>
             <p>Title: {e.title}</p>
-            <img src={e.url} />
+            <img src={e.url} alt={e.title} />
           </div>
         ))
       )}
