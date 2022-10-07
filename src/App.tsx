@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 function App() {
+  const [data, setData] = useState<string[] | never>([]);
+  const inputRef = useRef<any>();
+
+  const onAdd = () => {
+    const added: string[] = [...data, inputRef.current.value ?? "emty"];
+    setData(added);
+    localStorage.setItem("list", JSON.stringify(added));
+  };
+
+  useEffect(() => {
+    const stringList: string | null = localStorage.getItem("list");
+    if (stringList) setData(JSON.parse(stringList));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Link to="/fetch">
+        <div>Fetch</div>
+      </Link>
+      <input ref={inputRef}></input>
+      <button onClick={() => onAdd()}>add</button>
+      <div>
+        {data.map((e, i) => (
+          <p key={i}>{e}</p>
+        ))}
+      </div>
     </div>
   );
 }
